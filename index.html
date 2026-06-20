@@ -1,54 +1,309 @@
-﻿<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Consulta de Inventario</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grékos - Stock por Tienda</title>
   <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f0f0f0;
-      margin: 0;
-      padding: 20px;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #0f0f0f;
+      color: #f0f0f0;
+      min-height: 100vh;
     }
-    h1 {
-      text-align: center;
-    }
-    .form-container {
+
+    header {
+      background: #1a1a1a;
+      border-bottom: 2px solid #e63312;
+      padding: 18px 32px;
       display: flex;
-      justify-content: center;
+      align-items: center;
+      gap: 16px;
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: #ffffff;
+    }
+
+    header h1 span { color: #e63312; }
+
+    header p {
+      font-size: 0.85rem;
+      color: #888;
+      margin-top: 2px;
+    }
+
+    .search-bar {
+      padding: 20px 32px;
+      background: #151515;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .search-bar input {
+      flex: 1;
+      padding: 10px 16px;
+      background: #222;
+      border: 1px solid #333;
+      border-radius: 6px;
+      color: #f0f0f0;
+      font-size: 0.95rem;
+      outline: none;
+    }
+
+    .search-bar input:focus { border-color: #e63312; }
+
+    .search-bar button {
+      padding: 10px 22px;
+      background: #e63312;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+
+    .search-bar button:hover { background: #c42a0e; }
+
+    .container { padding: 24px 32px; }
+
+    .loading, .error, .empty {
+      text-align: center;
+      padding: 60px;
+      color: #666;
+      font-size: 1.1rem;
+    }
+
+    .error { color: #e63312; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #1a1a1a;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    thead tr { background: #222; }
+
+    th {
+      padding: 14px 20px;
+      text-align: left;
+      font-size: 0.8rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #888;
+      border-bottom: 1px solid #2a2a2a;
+    }
+
+    td {
+      padding: 14px 20px;
+      border-bottom: 1px solid #222;
+      font-size: 0.95rem;
+    }
+
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #1e1e1e; }
+
+    .producto-nombre { font-weight: 600; color: #fff; }
+
+    .stock-num {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .stock-ok { color: #4caf50; }
+    .stock-low { color: #ff9800; }
+    .stock-zero { color: #e63312; }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .badge-ok { background: #1a3a1a; color: #4caf50; }
+    .badge-low { background: #3a2a00; color: #ff9800; }
+    .badge-zero { background: #3a0a0a; color: #e63312; }
+
+    .tienda-header { color: #e63312; }
+
+    .total-row td { background: #111; font-weight: 700; color: #ccc; }
+
+    .stats {
+      display: flex;
+      gap: 16px;
       margin-bottom: 20px;
     }
-    .form-container input {
-      padding: 10px;
-      margin-right: 10px;
-      font-size: 16px;
-    }
-    .form-container button {
-      padding: 10px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    .result {
-      margin-top: 20px;
+
+    .stat-card {
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 8px;
+      padding: 16px 24px;
+      flex: 1;
       text-align: center;
-      font-size: 18px;
     }
+
+    .stat-card .num {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #e63312;
+    }
+
+    .stat-card .label {
+      font-size: 0.8rem;
+      color: #666;
+      margin-top: 4px;
+    }
+
+    .refresh-btn {
+      float: right;
+      padding: 8px 16px;
+      background: transparent;
+      border: 1px solid #333;
+      border-radius: 6px;
+      color: #888;
+      cursor: pointer;
+      font-size: 0.85rem;
+      margin-bottom: 16px;
+    }
+
+    .refresh-btn:hover { border-color: #e63312; color: #e63312; }
   </style>
 </head>
 <body>
-  <h1>Consulta de Inventario</h1>
-  
-  <div class="form-container">
-    <input type="text" id="producto" placeholder="Producto" />
-    <input type="text" id="talla" placeholder="Talla (S, M, L, XL)" />
-    <button onclick="consultarInventario()">Consultar</button>
+
+<header>
+  <div>
+    <h1>GRÉ<span>KOS</span></h1>
+    <p>Sistema de inventario por tienda</p>
+  </div>
+</header>
+
+<div class="search-bar">
+  <input type="text" id="buscar" placeholder="Buscar producto..." oninput="filtrar()">
+  <button onclick="cargarDatos()">↻ Actualizar</button>
+</div>
+
+<div class="container">
+  <div class="stats" id="stats" style="display:none">
+    <div class="stat-card">
+      <div class="num" id="total-productos">-</div>
+      <div class="label">Productos</div>
+    </div>
+    <div class="stat-card">
+      <div class="num" id="total-ica">-</div>
+      <div class="label">Stock Ica</div>
+    </div>
+    <div class="stat-card">
+      <div class="num" id="total-chincha">-</div>
+      <div class="label">Stock Chincha</div>
+    </div>
+    <div class="stat-card">
+      <div class="num" id="total-nasca">-</div>
+      <div class="label">Stock Nasca</div>
+    </div>
+    <div class="stat-card">
+      <div class="num" id="total-arequipa">-</div>
+      <div class="label">Stock Arequipa</div>
+    </div>
   </div>
 
+  <button class="refresh-btn" onclick="cargarDatos()">Última actualización: <span id="ultima-act">-</span></button>
 
-  <div class="result" id="resultado"></div>
+  <div id="contenido"><div class="loading">Cargando inventario...</div></div>
+</div>
 
+<script>
+  const BASE_ID = 'appOLjwDk4hhdE7LW';
+  const TABLE = 'Stock';
+  const TOKEN = 'patK2Vcr3Ykk8RZUN.ae7126b054527abc16838a73785a17d3ab57';
+  const TIENDAS = ['Ica', 'Chincha', 'Nasca', 'Arequipa'];
 
-  <script src="consultarInventario.js"></script>
+  let todosProductos = [];
+
+  function stockClass(n) {
+    if (n === 0) return 'stock-zero';
+    if (n <= 2) return 'stock-low';
+    return 'stock-ok';
+  }
+
+  function badgeClass(n) {
+    if (n === 0) return 'badge badge-zero';
+    if (n <= 2) return 'badge badge-low';
+    return 'badge badge-ok';
+  }
+
+  function renderTabla(productos) {
+    if (!productos.length) {
+      document.getElementById('contenido').innerHTML = '<div class="empty">No se encontraron productos.</div>';
+      return;
+    }
+
+    let html = '<table><thead><tr>';
+    html += '<th>Producto</th>';
+    TIENDAS.forEach(t => html += `<th class="tienda-header">${t}</th>`);
+    html += '<th>Total</th></tr></thead><tbody>';
+
+    productos.forEach(p => {
+      const f = p.fields;
+      const total = TIENDAS.reduce((s, t) => s + (f[t] || 0), 0);
+      html += '<tr>';
+      html += `<td class="producto-nombre">${f.Producto || '-'}</td>`;
+      TIENDAS.forEach(t => {
+        const n = f[t] || 0;
+        html += `<td><span class="stock-num ${stockClass(n)}">${n}</span></td>`;
+      });
+      html += `<td><span class="${badgeClass(total)}">${total}</span></td>`;
+      html += '</tr>';
+    });
+
+    html += '</tbody></table>';
+    document.getElementById('contenido').innerHTML = html;
+  }
+
+  function filtrar() {
+    const q = document.getElementById('buscar').value.toLowerCase();
+    const filtrados = todosProductos.filter(p =>
+      (p.fields.Producto || '').toLowerCase().includes(q)
+    );
+    renderTabla(filtrados);
+  }
+
+  function actualizarStats(productos) {
+    document.getElementById('stats').style.display = 'flex';
+    document.getElementById('total-productos').textContent = productos.length;
+    TIENDAS.forEach(t => {
+      const total = productos.reduce((s, p) => s + (p.fields[t] || 0), 0);
+      document.getElementById(`total-${t.toLowerCase()}`).textContent = total;
+    });
+    document.getElementById('ultima-act').textContent = new Date().toLocaleTimeString('es-PE');
+  }
+
+  async function cargarDatos() {
+    document.getElementById('contenido').innerHTML = '<div class="loading">Cargando inventario...</div>';
+    try {
+      const url = `https://api.airtable.com/v0/${BASE_ID}/${encodeURIComponent(TABLE)}`;
+      const res = await fetch(url, {
+        headers: { Authorization: `Bearer ${TOKEN}` }
+      });
+      if (!res.ok) throw new Error('Error al conectar con Airtable');
+      const data = await res.json();
+      todosProductos = data.records || [];
+      actualizarStats(todosProductos);
+      renderTabla(todosProductos);
+    } catch (e) {
+      document.getElementById('contenido').innerHTML = `<div class="error">⚠️ ${e.message}</div>`;
+    }
+  }
+
+  cargarDatos();
+</script>
 </body>
 </html>
