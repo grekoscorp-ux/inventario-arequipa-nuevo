@@ -23,25 +23,18 @@
     .logo span { color: #e63312; }
     .logo-sub { font-size: 12px; color: #888; margin-top: 2px; }
     nav a {
-      color: #f0f0f0;
-      text-decoration: none;
-      margin-left: 28px;
-      font-size: 15px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: color 0.2s;
+      color: #f0f0f0; text-decoration: none; margin-left: 28px;
+      font-size: 15px; font-weight: 500; cursor: pointer; transition: color 0.2s;
     }
     nav a:hover, nav a.active { color: #e63312; }
 
-    /* SECTIONS */
     .section { display: none; }
     .section.active { display: block; }
 
-    /* INICIO */
+    /* HERO */
     .hero {
       background: linear-gradient(135deg, #1a1a1a 0%, #2a1a1a 100%);
-      text-align: center;
-      padding: 80px 32px 60px;
+      text-align: center; padding: 80px 32px 60px;
     }
     .hero h1 { font-size: 52px; font-weight: 900; letter-spacing: -2px; text-transform: uppercase; }
     .hero h1 span { color: #e63312; }
@@ -60,61 +53,61 @@
     }
     .btn-secondary:hover { border-color: #e63312; }
 
+    /* CATEGORIAS HERO */
+    .cats-hero {
+      display: flex; justify-content: center; gap: 12px;
+      flex-wrap: wrap; padding: 32px;
+      background: #111;
+    }
+    .cat-hero-btn {
+      padding: 10px 22px; border-radius: 24px;
+      border: 2px solid #333; background: transparent;
+      color: #ccc; font-size: 14px; font-weight: 600;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .cat-hero-btn:hover, .cat-hero-btn.active {
+      border-color: #e63312; color: #fff; background: #e63312;
+    }
+
     /* PRODUCTOS */
     .products-header {
-      padding: 40px 32px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 16px;
+      padding: 32px 32px 16px;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;
     }
-    .products-header h2 { font-size: 28px; font-weight: 800; }
+    .products-header h2 { font-size: 24px; font-weight: 800; }
     .search-bar {
-      padding: 10px 18px;
-      background: #1a1a1a;
-      border: 1px solid #333;
-      border-radius: 6px;
-      color: #f0f0f0;
-      font-size: 15px;
-      width: 280px;
-      outline: none;
+      padding: 10px 18px; background: #1a1a1a; border: 1px solid #333;
+      border-radius: 6px; color: #f0f0f0; font-size: 15px; width: 260px; outline: none;
     }
     .search-bar:focus { border-color: #e63312; }
+
     .products-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 20px;
-      padding: 0 32px 60px;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 20px; padding: 0 32px 60px;
     }
     .product-card {
-      background: #1a1a1a;
-      border-radius: 10px;
-      overflow: hidden;
-      border: 1px solid #2a2a2a;
-      transition: transform 0.2s, border-color 0.2s;
+      background: #1a1a1a; border-radius: 10px; overflow: hidden;
+      border: 1px solid #2a2a2a; transition: transform 0.2s, border-color 0.2s;
     }
     .product-card:hover { transform: translateY(-4px); border-color: #e63312; }
-    .product-img {
-      width: 100%; height: 200px;
-      object-fit: cover;
-      background: #2a2a2a;
-    }
+    .product-img { width: 100%; height: 200px; object-fit: cover; background: #2a2a2a; }
     .product-img-placeholder {
-      width: 100%; height: 200px;
-      background: #2a2a2a;
+      width: 100%; height: 200px; background: #2a2a2a;
       display: flex; align-items: center; justify-content: center;
       color: #555; font-size: 40px;
     }
     .product-info { padding: 16px; }
-    .product-name { font-weight: 700; font-size: 16px; margin-bottom: 6px; }
+    .product-cat {
+      font-size: 11px; color: #e63312; text-transform: uppercase;
+      letter-spacing: 1px; font-weight: 700; margin-bottom: 4px;
+    }
+    .product-name { font-weight: 700; font-size: 15px; margin-bottom: 6px; }
     .product-price { color: #e63312; font-size: 20px; font-weight: 800; margin-bottom: 10px; }
     .product-desc { color: #999; font-size: 13px; margin-bottom: 12px; line-height: 1.5; }
     .stock-label { font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
     .stock-badges { display: flex; flex-wrap: wrap; gap: 6px; }
-    .badge {
-      padding: 3px 9px; border-radius: 12px; font-size: 12px; font-weight: 600;
-    }
+    .badge { padding: 3px 9px; border-radius: 12px; font-size: 12px; font-weight: 600; }
     .badge-ok { background: #1a3a1a; color: #4caf50; }
     .badge-low { background: #3a2a00; color: #ff9800; }
     .badge-out { background: #2a1a1a; color: #f44336; }
@@ -124,18 +117,10 @@
     .stores-section { padding: 40px 32px 60px; }
     .stores-section h2 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
     .stores-section p { color: #888; margin-bottom: 32px; }
-    .stores-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 20px;
-    }
+    .stores-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
     .store-card {
-      background: #1a1a1a;
-      border: 1px solid #2a2a2a;
-      border-radius: 10px;
-      padding: 28px 24px;
-      text-align: center;
-      transition: border-color 0.2s;
+      background: #1a1a1a; border: 1px solid #2a2a2a;
+      border-radius: 10px; padding: 28px 24px; text-align: center; transition: border-color 0.2s;
     }
     .store-card:hover { border-color: #e63312; }
     .store-icon { font-size: 40px; margin-bottom: 12px; }
@@ -167,13 +152,28 @@
       <button class="btn-secondary" onclick="showSection('tiendas')">Nuestras Tiendas</button>
     </div>
   </div>
+  <div class="cats-hero">
+    <button class="cat-hero-btn" onclick="goToCategory('Suplementos')">💊 Suplementos</button>
+    <button class="cat-hero-btn" onclick="goToCategory('Ropa')">👕 Ropa</button>
+    <button class="cat-hero-btn" onclick="goToCategory('Artículos')">🏋️ Artículos</button>
+    <button class="cat-hero-btn" onclick="goToCategory('Máquinas')">⚙️ Máquinas</button>
+    <button class="cat-hero-btn" onclick="goToCategory('Zapatillas')">👟 Zapatillas</button>
+  </div>
 </div>
 
 <!-- PRODUCTOS -->
 <div id="productos" class="section">
   <div class="products-header">
-    <h2>Productos</h2>
+    <h2 id="products-title">Todos los productos</h2>
     <input class="search-bar" id="search" type="text" placeholder="Buscar producto..." oninput="filterProducts()">
+  </div>
+  <div style="padding: 0 32px 16px; display:flex; gap:10px; flex-wrap:wrap;">
+    <button class="cat-hero-btn active" id="cat-all" onclick="setCat('')">Todos</button>
+    <button class="cat-hero-btn" id="cat-Suplementos" onclick="setCat('Suplementos')">💊 Suplementos</button>
+    <button class="cat-hero-btn" id="cat-Ropa" onclick="setCat('Ropa')">👕 Ropa</button>
+    <button class="cat-hero-btn" id="cat-Artículos" onclick="setCat('Artículos')">🏋️ Artículos</button>
+    <button class="cat-hero-btn" id="cat-Máquinas" onclick="setCat('Máquinas')">⚙️ Máquinas</button>
+    <button class="cat-hero-btn" id="cat-Zapatillas" onclick="setCat('Zapatillas')">👟 Zapatillas</button>
   </div>
   <div id="products-grid" class="products-grid">
     <div class="loading">Cargando productos...</div>
@@ -186,26 +186,10 @@
     <h2>Nuestras Tiendas</h2>
     <p>Encuéntranos en 4 ciudades del Perú</p>
     <div class="stores-grid">
-      <div class="store-card">
-        <div class="store-icon">📍</div>
-        <div class="store-name">Ica</div>
-        <div class="store-info">Sede principal</div>
-      </div>
-      <div class="store-card">
-        <div class="store-icon">📍</div>
-        <div class="store-name">Chincha</div>
-        <div class="store-info">Chincha Alta</div>
-      </div>
-      <div class="store-card">
-        <div class="store-icon">📍</div>
-        <div class="store-name">Nasca</div>
-        <div class="store-info">Nasca Centro</div>
-      </div>
-      <div class="store-card">
-        <div class="store-icon">📍</div>
-        <div class="store-name">Arequipa</div>
-        <div class="store-info">Arequipa Centro</div>
-      </div>
+      <div class="store-card"><div class="store-icon">📍</div><div class="store-name">Ica</div><div class="store-info">Sede principal</div></div>
+      <div class="store-card"><div class="store-icon">📍</div><div class="store-name">Chincha</div><div class="store-info">Chincha Alta</div></div>
+      <div class="store-card"><div class="store-icon">📍</div><div class="store-name">Nasca</div><div class="store-info">Nasca Centro</div></div>
+      <div class="store-card"><div class="store-icon">📍</div><div class="store-name">Arequipa</div><div class="store-info">Arequipa Centro</div></div>
     </div>
   </div>
 </div>
@@ -216,6 +200,7 @@
   const TABLE = 'Stock';
 
   let allProducts = [];
+  let currentCat = '';
 
   function showSection(name) {
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
@@ -225,6 +210,20 @@
     if (name === 'productos' && allProducts.length === 0) loadProducts();
   }
 
+  function goToCategory(cat) {
+    showSection('productos');
+    setCat(cat);
+  }
+
+  function setCat(cat) {
+    currentCat = cat;
+    document.querySelectorAll('.cat-hero-btn[id^="cat-"]').forEach(b => b.classList.remove('active'));
+    const btn = cat ? document.getElementById('cat-' + cat) : document.getElementById('cat-all');
+    if (btn) btn.classList.add('active');
+    document.getElementById('products-title').textContent = cat || 'Todos los productos';
+    filterProducts();
+  }
+
   async function loadProducts() {
     try {
       const res = await fetch(`https://api.airtable.com/v0/${BASE_ID}/${TABLE}`, {
@@ -232,10 +231,17 @@
       });
       const data = await res.json();
       allProducts = data.records;
-      renderProducts(allProducts);
+      filterProducts();
     } catch (e) {
       document.getElementById('products-grid').innerHTML = '<div class="loading">Error al cargar productos.</div>';
     }
+  }
+
+  function filterProducts() {
+    const q = document.getElementById('search').value.toLowerCase();
+    let filtered = allProducts.filter(r => (r.fields.Producto || '').toLowerCase().includes(q));
+    if (currentCat) filtered = filtered.filter(r => r.fields['Categoría'] === currentCat);
+    renderProducts(filtered);
   }
 
   function renderProducts(records) {
@@ -254,10 +260,12 @@
         : `<div class="product-img-placeholder">🏋️</div>`;
       const precio = f.Precio ? `S/ ${parseFloat(f.Precio).toFixed(2)}` : 'Consultar';
       const desc = f.Descripción || f.Descripcion || '';
+      const cat = f['Categoría'] || '';
       return `
         <div class="product-card">
           ${imgHTML}
           <div class="product-info">
+            ${cat ? `<div class="product-cat">${cat}</div>` : ''}
             <div class="product-name">${f.Producto || 'Producto'}</div>
             <div class="product-price">${precio}</div>
             ${desc ? `<div class="product-desc">${desc}</div>` : ''}
@@ -266,12 +274,6 @@
           </div>
         </div>`;
     }).join('');
-  }
-
-  function filterProducts() {
-    const q = document.getElementById('search').value.toLowerCase();
-    const filtered = allProducts.filter(r => (r.fields.Producto || '').toLowerCase().includes(q));
-    renderProducts(filtered);
   }
 </script>
 </body>
